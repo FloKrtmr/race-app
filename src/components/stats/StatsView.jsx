@@ -1,5 +1,8 @@
-import { formatDuration, formatETA, formatTime } from '../../utils/time'
+import { formatDuration, formatETA } from '../../utils/time'
 import { calcCarbs } from '../../hooks/useCalculations'
+
+const COLOR_BORDER = { blue: 'border-blue-500/30', orange: 'border-orange-500/30' }
+const COLOR_TEXT = { blue: 'text-blue-400', orange: 'text-orange-400' }
 
 function Row({ label, value, sub }) {
   return (
@@ -13,12 +16,10 @@ function Row({ label, value, sub }) {
   )
 }
 
-export default function StatsView({ raceConfig, entries, stats, stopLog, getGoalForHour }) {
+export default function StatsView({ raceConfig, entries, stats, stopLog, getGoalForHour, currentSpeedKmh }) {
   const now = Date.now()
   const floStats = calcCarbs(entries, 'flo', raceConfig, getGoalForHour, now)
   const tadeStats = calcCarbs(entries, 'tade', raceConfig, getGoalForHour, now)
-  const floHours = entries.filter(e => e.rider === 'flo').length > 0
-    ? (stats?.movingMs ?? 0) / 3_600_000 / 2 : 0
 
   if (!stats || !raceConfig) return <div className="p-4 text-gray-400">Rennen noch nicht gestartet</div>
 
@@ -36,6 +37,7 @@ export default function StatsView({ raceConfig, entries, stats, stopLog, getGoal
         <h2 className="text-blue-400 font-black text-lg mb-2">TEMPO</h2>
         <Row label="Ø Gesamt" value={`${stats.avgSpeedKmh.toFixed(1)} km/h`} sub="inkl. Stopps" />
         <Row label="Ø Bewegung" value={`${stats.avgMovingSpeedKmh.toFixed(1)} km/h`} sub="nur Fahrt" />
+        <Row label="Aktuell" value={currentSpeedKmh != null ? `${currentSpeedKmh.toFixed(1)} km/h` : '—'} sub="live" />
       </section>
 
       <section>
@@ -56,8 +58,8 @@ export default function StatsView({ raceConfig, entries, stats, stopLog, getGoal
         <h2 className="text-blue-400 font-black text-lg mb-2">CARBS</h2>
         <div className="grid grid-cols-2 gap-4">
           {[['Flo', floStats, 'blue'], ['Tade', tadeStats, 'orange']].map(([name, s, c]) => (
-            <div key={name} className={`bg-gray-800 rounded-xl p-3 border border-${c}-500/30`}>
-              <div className={`text-${c}-400 font-black text-lg mb-2`}>{name}</div>
+            <div key={name} className={`bg-gray-800 rounded-xl p-3 border ${COLOR_BORDER[c]}`}>
+              <div className={`${COLOR_TEXT[c]} font-black text-lg mb-2`}>{name}</div>
               <Row label="Gesamt" value={`${Math.round(s.totalEaten)}g`} />
               <Row label="Ø/h" value={`${stats.movingMs > 0 ? Math.round(s.totalEaten / (stats.movingMs / 3_600_000 / 2)) : 0}g`} />
             </div>
