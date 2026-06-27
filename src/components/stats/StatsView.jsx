@@ -18,8 +18,8 @@ function Row({ label, value, sub }) {
 
 export default function StatsView({ raceConfig, entries, stats, stopLog, getGoalForHour, currentSpeedKmh }) {
   const now = Date.now()
-  const floStats = calcCarbs(entries, 'flo', raceConfig, getGoalForHour, now)
-  const tadeStats = calcCarbs(entries, 'tade', raceConfig, getGoalForHour, now)
+  const floStats = calcCarbs(entries, 'flo', raceConfig, getGoalForHour, now, raceConfig?.riderHistory)
+  const tadeStats = calcCarbs(entries, 'tade', raceConfig, getGoalForHour, now, raceConfig?.riderHistory)
 
   if (!stats || !raceConfig) return <div className="p-4 text-gray-400">Rennen noch nicht gestartet</div>
 

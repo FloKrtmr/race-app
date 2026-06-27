@@ -37,5 +37,11 @@ export default function useStopLog() {
 
   const totalStopMs = stopLog.reduce((sum, s) => sum + s.durationMs, 0)
 
-  return { stopLog, activeStop, startStop, endStop, deleteStop, totalStopMs }
+  function resetStops() {
+    localStorage.removeItem('stop_log')
+    setStopLog([])
+    setActiveStop(null)
+  }
+
+  return { stopLog, activeStop, startStop, endStop, deleteStop, totalStopMs, resetStops }
 }

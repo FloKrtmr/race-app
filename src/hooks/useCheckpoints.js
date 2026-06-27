@@ -36,5 +36,11 @@ export default function useCheckpoints() {
     })
   }
 
-  return { checkpoints, toggleCheckpoint, autoDetect }
+  function resetCheckpoints() {
+    localStorage.removeItem(STORAGE_KEY)
+    const fresh = CHECKPOINTS.reduce((acc, cp) => ({ ...acc, [cp.id]: { reached: false, reachedTs: null } }), {})
+    setState(fresh)
+  }
+
+  return { checkpoints, toggleCheckpoint, autoDetect, resetCheckpoints }
 }

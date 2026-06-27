@@ -9,11 +9,18 @@ import Dashboard from '../components/Dashboard'
 
 export default function RaceApp() {
   const { raceConfig, startRace, resetRace, setActiveRider, hourOverrides, setHourOverride, getGoalForHour } = useRaceConfig()
-  const { entries, addEntry, undoLast, deleteEntry } = useCarbEntries()
-  const { stopLog, activeStop, startStop, endStop, deleteStop, totalStopMs } = useStopLog()
-  const { checkpoints, toggleCheckpoint, autoDetect } = useCheckpoints()
+  const { entries, addEntry, undoLast, deleteEntry, resetEntries } = useCarbEntries()
+  const { stopLog, activeStop, startStop, endStop, deleteStop, totalStopMs, resetStops } = useStopLog()
+  const { checkpoints, toggleCheckpoint, autoDetect, resetCheckpoints } = useCheckpoints()
   const { position: carPosition } = useGPS()
   const { locations } = useFirebaseLocation()
+
+  function handleReset() {
+    resetEntries()
+    resetStops()
+    resetCheckpoints()
+    resetRace()
+  }
 
   if (!raceConfig) return <SetupScreen startRace={startRace} />
 
@@ -36,7 +43,7 @@ export default function RaceApp() {
       autoDetect={autoDetect}
       carPosition={carPosition}
       locations={locations}
-      onReset={resetRace}
+      onReset={handleReset}
     />
   )
 }

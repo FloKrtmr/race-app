@@ -34,7 +34,13 @@ export default function Dashboard({
       <header className="bg-gray-800 px-4 py-3 flex items-center justify-between border-b border-gray-700">
         <span className="font-black text-lg">🏁 Race Tracker</span>
         <button className="text-gray-500 text-sm" onPointerDown={e => e.currentTarget.dataset.t = Date.now()}
-          onPointerUp={e => { if (Date.now() - e.currentTarget.dataset.t > 2000) onReset() }}>
+          onPointerUp={e => {
+            if (Date.now() - e.currentTarget.dataset.t > 2000) {
+              if (window.confirm('Alle Renndaten löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) {
+                onReset()
+              }
+            }
+          }}>
           ···
         </button>
       </header>

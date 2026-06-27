@@ -21,8 +21,8 @@ export default function CarbsTab({
   startStop,
 }) {
   const now = Date.now()
-  const floStats = calcCarbs(entries, 'flo', raceConfig, getGoalForHour, now)
-  const tadeStats = calcCarbs(entries, 'tade', raceConfig, getGoalForHour, now)
+  const floStats = calcCarbs(entries, 'flo', raceConfig, getGoalForHour, now, raceConfig?.riderHistory)
+  const tadeStats = calcCarbs(entries, 'tade', raceConfig, getGoalForHour, now, raceConfig?.riderHistory)
   const active = raceConfig?.activeRider ?? 'flo'
 
   function handlePreset(amount, label) {

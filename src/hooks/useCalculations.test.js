@@ -32,6 +32,25 @@ describe('calcCarbs', () => {
     const result = calcCarbs([], 'flo', baseConfig, getGoal, now)
     expect(result.status).toBe('green')
   })
+
+  it('does not accumulate shouldHaveEaten for resting rider', () => {
+    const startTime = 1000000
+    const config = { startTime, flo: { goalPerHour: 60 }, tade: { goalPerHour: 60 }, activeRider: 'tade' }
+    const riderHistory = [
+      { rider: 'flo', startTs: startTime },            // flo active 0-2h
+      { rider: 'tade', startTs: startTime + 7200000 }, // tade active 2-4h
+    ]
+    const now = startTime + 14400000 // 4 hours in
+    const getGoalFixed = () => 60
+
+    const floResult = calcCarbs([], 'flo', config, getGoalFixed, now, riderHistory)
+    // Flo only rode 2 hours, so shouldHaveEaten = 120 (not 240)
+    expect(floResult.shouldHaveEaten).toBeCloseTo(120, 0)
+
+    const tadeResult = calcCarbs([], 'tade', config, getGoalFixed, now, riderHistory)
+    // Tade rode 2 hours, so shouldHaveEaten = 120
+    expect(tadeResult.shouldHaveEaten).toBeCloseTo(120, 0)
+  })
 })
 
 describe('calcStats', () => {

@@ -16,8 +16,17 @@ export default function useRaceConfig() {
   const [raceConfig, setRaceConfig] = useState(() => load(KEYS.config))
   const [hourOverrides, setHourOverrides] = useState(() => load(KEYS.overrides) ?? { flo: {}, tade: {} })
 
-  function startRace({ flo, tade, gpxPolyline, totalDistanceKm }) {
-    const config = { startTime: Date.now(), flo, tade, activeRider: 'flo', gpxPolyline, totalDistanceKm }
+  function startRace({ flo, tade, gpxPolyline, totalDistanceKm, startTime: providedStartTime }) {
+    const startTime = providedStartTime ?? Date.now()
+    const config = {
+      startTime,
+      flo,
+      tade,
+      activeRider: 'flo',
+      gpxPolyline,
+      totalDistanceKm,
+      riderHistory: [{ rider: 'flo', startTs: startTime }],
+    }
     save(KEYS.config, config)
     setRaceConfig(config)
   }
@@ -32,7 +41,11 @@ export default function useRaceConfig() {
   }
 
   function setActiveRider(rider) {
-    const updated = { ...raceConfig, activeRider: rider }
+    const updated = {
+      ...raceConfig,
+      activeRider: rider,
+      riderHistory: [...(raceConfig.riderHistory ?? []), { rider, startTs: Date.now() }],
+    }
     save(KEYS.config, updated)
     setRaceConfig(updated)
   }

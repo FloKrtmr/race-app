@@ -16,6 +16,11 @@ export default function SetupScreen({ startRace }) {
   const [gpxLoaded, setGpxLoaded] = useState(false)
   const [gpxError, setGpxError] = useState(null)
   const polylineRef = useRef([])
+  const [startTimeStr, setStartTimeStr] = useState(() => {
+    const d = new Date()
+    d.setSeconds(0, 0)
+    return d.toISOString().slice(0, 16) // "YYYY-MM-DDTHH:MM"
+  })
 
   async function handleGpx(e) {
     const file = e.target.files?.[0]
@@ -39,6 +44,7 @@ export default function SetupScreen({ startRace }) {
       tade: { goalPerHour: Number(tadeGoal) },
       gpxPolyline: polyline,
       totalDistanceKm,
+      startTime: new Date(startTimeStr).getTime(),
     })
   }
 
@@ -76,6 +82,16 @@ export default function SetupScreen({ startRace }) {
           {gpxLoaded && <span className="text-green-400">GPX geladen ({polylineRef.current.length} Punkte)</span>}
           {gpxError && <span className="text-red-400">{gpxError}</span>}
           {!gpxLoaded && <span className="text-gray-500 text-sm">Optional - ohne GPX kein Kartentrack</span>}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-gray-400 text-sm">Rennstart</label>
+          <input
+            type="datetime-local"
+            value={startTimeStr}
+            onChange={e => setStartTimeStr(e.target.value)}
+            className="bg-gray-800 text-white rounded-xl p-3 text-lg border border-gray-600"
+          />
         </div>
 
         <button

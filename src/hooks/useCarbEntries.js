@@ -35,5 +35,10 @@ export default function useCarbEntries() {
     update(entries.filter(e => e.id !== id))
   }
 
-  return { entries, addEntry, undoLast, deleteEntry }
+  function resetEntries() {
+    localStorage.removeItem('carb_entries')
+    setEntries([])
+  }
+
+  return { entries, addEntry, undoLast, deleteEntry, resetEntries }
 }
