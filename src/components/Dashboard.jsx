@@ -33,7 +33,7 @@ export default function Dashboard({
     <div className="min-h-screen bg-gray-900 text-white pb-20">
       <header className="bg-gray-800 px-4 py-3 flex items-center justify-between border-b border-gray-700">
         <span className="font-black text-lg">🏁 Race Tracker</span>
-        <button onClick={onReset} className="text-gray-500 text-sm" onPointerDown={e => e.currentTarget.dataset.t = Date.now()}
+        <button className="text-gray-500 text-sm" onPointerDown={e => e.currentTarget.dataset.t = Date.now()}
           onPointerUp={e => { if (Date.now() - e.currentTarget.dataset.t > 2000) onReset() }}>
           ···
         </button>
