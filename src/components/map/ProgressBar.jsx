@@ -10,7 +10,7 @@ export default function ProgressBar({ covered, remaining, total }) {
       <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
         <div className="h-full bg-blue-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
       </div>
-      <div className="flex justify-between text-base text-gray-400 mt-1">
+      <div className="flex justify-between text-lg text-gray-400 mt-1">
         <span>{Math.round(covered)} km zurück</span>
         <span>{Math.round(remaining)} km vor</span>
       </div>
