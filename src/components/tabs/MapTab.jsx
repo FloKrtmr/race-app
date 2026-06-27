@@ -10,7 +10,7 @@ export default function MapTab({ raceConfig, carPosition, locations, checkpoints
   const total = raceConfig?.totalDistanceKm ?? 1008
 
   useEffect(() => {
-    if (carPosition && autoDetect) autoDetect(carPosition)
+    if (carPosition && autoDetect) autoDetect(carPosition.lat, carPosition.lng)
   }, [carPosition])
 
   return (
