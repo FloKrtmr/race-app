@@ -8,6 +8,10 @@ const STATUS_TEXT = {
   yellow: 'text-yellow-400',
   red: 'text-red-400',
 }
+const COLOR_TEXT = {
+  blue: 'text-blue-400',
+  orange: 'text-orange-400',
+}
 
 export default function RiderCard({ name, stats, isActive, color }) {
   const { totalEaten, shouldHaveEaten, delta, status } = stats
@@ -17,7 +21,7 @@ export default function RiderCard({ name, stats, isActive, color }) {
   return (
     <div className={`border-2 rounded-2xl p-4 flex flex-col gap-2 flex-1 ${borderClass} ${dimClass}`}>
       <div className="flex items-center justify-between">
-        <span className={`text-2xl font-black text-${color}-400`}>{name}</span>
+        <span className={`text-2xl font-black ${COLOR_TEXT[color]}`}>{name}</span>
         <span
           className={`text-sm font-bold px-2 py-1 rounded-lg ${
             isActive ? 'bg-blue-500 text-white' : 'bg-gray-600 text-gray-300'

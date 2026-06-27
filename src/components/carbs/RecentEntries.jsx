@@ -22,7 +22,7 @@ export default function RecentEntries({ entries, onUndo, rider }) {
           <span className="text-green-400">+{e.amount}g</span>
         </div>
       ))}
-      <button onClick={() => onUndo(rider)} className="text-red-400 text-sm mt-2">
+      <button onClick={() => onUndo(rider)} className="text-red-400 text-sm mt-2 min-h-[60px]">
         ↩ Letzten rückgängig
       </button>
     </div>

@@ -18,7 +18,7 @@ export default function RiderSwitchButton({ activeRider, onSwitch, onSwitchWithS
               onSwitchWithStop()
               setShowDialog(false)
             }}
-            className="flex-1 bg-blue-500 text-white font-bold py-3 rounded-xl"
+            className="flex-1 bg-blue-500 text-white font-bold py-3 rounded-xl min-h-[60px]"
           >
             Ja, Timer starten
           </button>
@@ -27,7 +27,7 @@ export default function RiderSwitchButton({ activeRider, onSwitch, onSwitchWithS
               onSwitch()
               setShowDialog(false)
             }}
-            className="flex-1 bg-gray-600 text-white py-3 rounded-xl"
+            className="flex-1 bg-gray-600 text-white py-3 rounded-xl min-h-[60px]"
           >
             Nur wechseln
           </button>
