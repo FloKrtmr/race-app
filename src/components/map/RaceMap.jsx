@@ -1,10 +1,20 @@
-import { MapContainer, TileLayer, Polyline, Marker, Popup, CircleMarker } from 'react-leaflet'
 import { useEffect } from 'react'
+import { MapContainer, TileLayer, Polyline, CircleMarker, Popup, useMap } from 'react-leaflet'
 
 function buildCenter(polyline) {
   if (!polyline?.length) return [51.5, 10.0]
   const mid = polyline[Math.floor(polyline.length / 2)]
   return [mid[0], mid[1]]
+}
+
+function FitBoundsOnLoad({ polyline }) {
+  const map = useMap()
+  useEffect(() => {
+    if (polyline?.length > 1) {
+      map.fitBounds(polyline)
+    }
+  }, [])
+  return null
 }
 
 export default function RaceMap({ polyline, carPosition, floPosition, tadePosition, checkpoints, onCheckpointToggle }) {
@@ -13,6 +23,8 @@ export default function RaceMap({ polyline, carPosition, floPosition, tadePositi
   return (
     <MapContainer center={center} zoom={7} className="h-[50vh] w-full rounded-xl z-0">
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+      <FitBoundsOnLoad polyline={polyline} />
 
       {polyline?.length > 1 && <Polyline positions={polyline} color="#3b82f6" weight={3} />}
 

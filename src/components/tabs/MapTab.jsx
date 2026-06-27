@@ -1,12 +1,17 @@
+import { useEffect } from 'react'
 import RaceMap from '../map/RaceMap'
 import ProgressBar from '../map/ProgressBar'
 import CheckpointBanner from '../map/CheckpointBanner'
 
-export default function MapTab({ raceConfig, carPosition, locations, checkpoints, toggleCheckpoint, stats }) {
+export default function MapTab({ raceConfig, carPosition, locations, checkpoints, toggleCheckpoint, autoDetect, stats }) {
   const polyline = raceConfig?.gpxPolyline ?? []
   const covered = stats?.distanceCoveredKm ?? 0
   const remaining = stats?.distanceRemainingKm ?? (raceConfig?.totalDistanceKm ?? 1008)
   const total = raceConfig?.totalDistanceKm ?? 1008
+
+  useEffect(() => {
+    if (carPosition && autoDetect) autoDetect(carPosition)
+  }, [carPosition])
 
   return (
     <div className="flex flex-col gap-3 p-3">
@@ -19,7 +24,7 @@ export default function MapTab({ raceConfig, carPosition, locations, checkpoints
         checkpoints={checkpoints}
         onCheckpointToggle={toggleCheckpoint}
       />
-      <CheckpointBanner checkpoints={checkpoints} coveredKm={covered} />
+      <CheckpointBanner checkpoints={checkpoints} coveredKm={covered} polyline={polyline} />
     </div>
   )
 }
